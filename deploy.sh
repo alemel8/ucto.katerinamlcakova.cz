@@ -9,7 +9,7 @@
 set -euo pipefail
 
 TARGET="${1:-root@89.221.219.220}"
-REPO="git@github.com:alemel8/ucto.katerinamlcakova.cz.git"
+REPO="git@github-ucto:alemel8/ucto.katerinamlcakova.cz.git"
 REMOTE_DIR="/opt/vytezovani-faktur"
 DOMAIN="ucto.katerinamlcakova.cz"
 
