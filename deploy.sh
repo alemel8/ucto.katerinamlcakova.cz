@@ -42,7 +42,16 @@ fi
 # Klonuj nebo aktualizuj repozitář
 if [ ! -d "$REMOTE_DIR/.git" ]; then
   echo "Cloning repository..."
+  # Přejmenuj existující adresář, klonuj, obnov .env
+  if [ -d "$REMOTE_DIR" ]; then
+    mv "$REMOTE_DIR" "${REMOTE_DIR}.bak"
+  fi
   git clone $REPO $REMOTE_DIR
+  # Obnov .env ze zálohy pokud existoval
+  if [ -f "${REMOTE_DIR}.bak/backend/.env" ]; then
+    cp "${REMOTE_DIR}.bak/backend/.env" "$REMOTE_DIR/backend/.env"
+  fi
+  rm -rf "${REMOTE_DIR}.bak"
 else
   echo "Pulling latest changes..."
   git -C $REMOTE_DIR pull --ff-only
