@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+/* Make PDF iframe fill the modal */
+.pdf-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}

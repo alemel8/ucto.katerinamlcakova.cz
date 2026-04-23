@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Secrets & DB
+backend/.env
+backend/invoices.db
+backend/pdfs/
+
+# Node
+node_modules/
+frontend/dist/
+
+# Build / cache
+.cache/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
