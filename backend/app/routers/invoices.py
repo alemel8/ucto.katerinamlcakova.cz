@@ -53,12 +53,7 @@ def list_invoices(
     q = db.query(Invoice)
 
     if client_ico:
-        q = q.filter(
-            or_(
-                Invoice.ico == client_ico,
-                Invoice.customer_ico == client_ico,
-            )
-        )
+        q = q.filter(Invoice.customer_ico == client_ico)
 
     if search:
         term = f"%{search}%"
