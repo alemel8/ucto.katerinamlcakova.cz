@@ -29,7 +29,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-sm">
-        <img src="/logo.png" alt="Katerina Mlcakova" className="mx-auto mb-4 h-16 object-contain" />
+        <img src="/logo.png" alt="Katerina Mlcakova" className="mx-auto mb-4 object-contain" style={{ height: '200px' }} />
         <p className="text-sm text-gray-500 text-center mb-6">Přihlaste se pro přístup</p>
 
         {error && (
