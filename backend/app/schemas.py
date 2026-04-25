@@ -27,6 +27,7 @@ class InvoiceResponse(InvoiceBase):
     email_from: Optional[str] = None
     email_date: Optional[datetime] = None
     pdf_filename: Optional[str] = None
+    invoice_number: Optional[str] = None
     doc_type: Optional[str] = "jine"
     supplier_address: Optional[str] = None
     customer_name: Optional[str] = None
@@ -76,3 +77,19 @@ class InvoiceUpdate(BaseModel):
     amount_vat_21: Optional[float] = None
     amount_total: Optional[float] = None
     doc_type: Optional[str] = None
+    invoice_number: Optional[str] = None
+
+
+class ClientCreate(BaseModel):
+    ico: str
+    name: Optional[str] = None
+
+
+class ClientResponse(BaseModel):
+    id: int
+    ico: str
+    name: Optional[str] = None
+    created_at: datetime
+
+    class Config:
+        from_attributes = True

@@ -37,7 +37,7 @@ DIC_PATTERN = re.compile(
 DATE_PATTERNS = [
     # Labeled Czech dates
     (re.compile(r'(?:datum\s+vystavení|datum\s+vystaveni|vystaveno)\s*[:\s]+(\d{1,2}[.\-/]\d{1,2}[.\-/]\d{4})', re.IGNORECASE), 'issue'),
-    (re.compile(r'(?:datum\s+(?:zdanitelného\s+)?plnění|datum\s+(?:zdanitelneho\s+)?plneni|uskutečnění|uskutecneni)\s*[:\s]+(\d{1,2}[.\-/]\d{1,2}[.\-/]\d{4})', re.IGNORECASE), 'fulfillment'),
+    (re.compile(r'(?:datum\s+(?:zdanitelného\s+)?plnění|datum\s+(?:zdanitelneho\s+)?plneni|datum\s+uskut\.?\s+zda[nň]\.?(?:\s+pln[eě]n[ií])?|uskutečnění|uskutecneni)\s*[:\s]+(\d{1,2}[.\-/]\d{1,2}[.\-/]\d{4})', re.IGNORECASE), 'fulfillment'),
     (re.compile(r'(?:datum\s+splatnosti|splatnost)\s*[:\s]+(\d{1,2}[.\-/]\d{1,2}[.\-/]\d{4})', re.IGNORECASE), 'due'),
 ]
 

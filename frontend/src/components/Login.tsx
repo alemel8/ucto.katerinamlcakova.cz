@@ -29,7 +29,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-sm">
-        <h1 className="text-2xl font-bold text-gray-800 mb-1 text-center">Vytěžování faktur</h1>
+        <h1 className="text-2xl font-bold text-gray-800 mb-1 text-center">Katerina Mlcakova</h1>
         <p className="text-sm text-gray-500 text-center mb-6">Přihlaste se pro přístup</p>
 
         {error && (
@@ -47,7 +47,7 @@ export default function Login() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="fakturace@katerinamlcakova.cz"
+              placeholder="e-mail"
             />
           </div>
           <div>
@@ -58,6 +58,7 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="heslo"
             />
           </div>
           <button

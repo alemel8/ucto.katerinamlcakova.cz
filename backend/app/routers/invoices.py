@@ -46,10 +46,19 @@ def list_invoices(
     month: Optional[int] = Query(None),
     date_from: Optional[datetime] = Query(None),
     date_to: Optional[datetime] = Query(None),
+    client_ico: Optional[str] = Query(None),
     db: Session = Depends(get_db),
     _: str = Depends(get_user_flexible),
 ):
     q = db.query(Invoice)
+
+    if client_ico:
+        q = q.filter(
+            or_(
+                Invoice.ico == client_ico,
+                Invoice.customer_ico == client_ico,
+            )
+        )
 
     if search:
         term = f"%{search}%"

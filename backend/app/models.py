@@ -3,6 +3,15 @@ from sqlalchemy.sql import func
 from .database import Base
 
 
+class Client(Base):
+    __tablename__ = "clients"
+
+    id = Column(Integer, primary_key=True, index=True)
+    ico = Column(String(8), unique=True, nullable=False, index=True)
+    name = Column(String(255), nullable=True)
+    created_at = Column(DateTime, server_default=func.now())
+
+
 class Invoice(Base):
     __tablename__ = "invoices"
 
@@ -44,6 +53,9 @@ class Invoice(Base):
     customer_ico = Column(String(8), nullable=True)
     customer_dic = Column(String(15), nullable=True)
     customer_address = Column(Text, nullable=True)
+
+    # Invoice number (Číslo dokladu)
+    invoice_number = Column(String(50), nullable=True)
 
     # Document type tag: faktura | uctenka | dobropis | jine
     doc_type = Column(String(20), nullable=True, default="jine")

@@ -8,6 +8,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 from .database import engine, Base, SessionLocal
 from .routers import auth, invoices, ares
+from .routers import clients as clients_router
 from .email_fetcher import EmailFetcher, ImapIdleWatcher
 
 logging.basicConfig(level=logging.INFO)
@@ -74,6 +75,44 @@ def _make_idle_db_factory_with_notify(loop):
     return SL
 
 
+INITIAL_CLIENT_ICOS = ["17510457", "22540776", "22540997"]
+
+
+def _fetch_ares_name(ico: str) -> str | None:
+    """Synchronously fetch company name from ARES."""
+    try:
+        import httpx
+        url = f"https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/{ico}"
+        resp = httpx.get(url, headers={"Accept": "application/json"}, timeout=8.0)
+        if resp.status_code == 200:
+            return resp.json().get("obchodniJmeno") or None
+    except Exception as e:
+        logger.warning(f"ARES name lookup failed for {ico}: {e}")
+    return None
+
+
+def _seed_clients():
+    """Ensure initial clients exist and have names from ARES."""
+    from .models import Client
+    db = SessionLocal()
+    try:
+        for ico in INITIAL_CLIENT_ICOS:
+            client = db.query(Client).filter(Client.ico == ico).first()
+            if not client:
+                name = _fetch_ares_name(ico)
+                db.add(Client(ico=ico, name=name))
+            elif client.name is None:
+                name = _fetch_ares_name(ico)
+                if name:
+                    client.name = name
+        db.commit()
+    except Exception as e:
+        logger.error(f"Client seeding error: {e}")
+        db.rollback()
+    finally:
+        db.close()
+
+
 scheduler = BackgroundScheduler()
 scheduler.add_job(scheduled_sync, "interval", minutes=5, id="email_sync")
 
@@ -85,6 +124,9 @@ async def lifespan(app: FastAPI):
     import asyncio
     loop = asyncio.get_event_loop()
     scheduled_sync._loop = loop
+
+    # Seed initial clients
+    _seed_clients()
 
     # Wire real-time WebSocket notification from IDLE watcher
     def notify_clients():
@@ -116,6 +158,7 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(invoices.router)
 app.include_router(ares.router)
+app.include_router(clients_router.router)
 
 
 @app.websocket("/ws")

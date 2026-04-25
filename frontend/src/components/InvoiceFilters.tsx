@@ -1,4 +1,5 @@
 import type { InvoiceFilters } from '../types/invoice'
+import type { Client } from '../types/invoice'
 
 const MONTHS = [
   'Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen',
@@ -12,25 +13,31 @@ interface Props {
   filters: InvoiceFilters
   onChange: (f: InvoiceFilters) => void
   onReset: () => void
+  clients: Client[]
 }
 
-export default function InvoiceFilters({ filters, onChange, onReset }: Props) {
+export default function InvoiceFilters({ filters, onChange, onReset, clients }: Props) {
   function set<K extends keyof InvoiceFilters>(key: K, value: InvoiceFilters[K]) {
     onChange({ ...filters, [key]: value })
   }
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-4 flex flex-wrap gap-3 items-end">
-      {/* Search */}
+      {/* Klient dropdown */}
       <div className="flex-1 min-w-48">
-        <label className="block text-xs font-medium text-gray-600 mb-1">Hledat</label>
-        <input
-          type="text"
-          value={filters.search}
-          onChange={(e) => set('search', e.target.value)}
-          placeholder="Firma, IČ, popis…"
+        <label className="block text-xs font-medium text-gray-600 mb-1">Klient</label>
+        <select
+          value={filters.client_ico}
+          onChange={(e) => set('client_ico', e.target.value)}
           className="w-full border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        >
+          <option value="">Vše</option>
+          {clients.map((c) => (
+            <option key={c.id} value={c.ico}>
+              {c.name ? `${c.name} (${c.ico})` : c.ico}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Year */}

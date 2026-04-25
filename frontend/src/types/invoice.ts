@@ -42,9 +42,17 @@ export interface Invoice {
   amount_total: number | null
 
   pdf_filename: string | null
+  invoice_number: string | null
   doc_type: DocType | null
   extraction_success: boolean
   extraction_notes: string | null
+  created_at: string
+}
+
+export interface Client {
+  id: number
+  ico: string
+  name: string | null
   created_at: string
 }
 
@@ -54,4 +62,5 @@ export interface InvoiceFilters {
   month: number | ''
   date_from: string
   date_to: string
+  client_ico: string
 }

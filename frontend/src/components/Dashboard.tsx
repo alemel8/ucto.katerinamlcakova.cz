@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { fetchInvoices, syncEmails, getPohodaExportUrl, updateInvoice, getPdfUrl } from '../api/invoices'
-import type { Invoice, InvoiceFilters } from '../types/invoice'
+import { fetchInvoices, syncEmails, getPohodaExportUrl, updateInvoice, getPdfUrl, fetchClients } from '../api/invoices'
+import type { Invoice, InvoiceFilters, Client } from '../types/invoice'
 import InvoiceFiltersBar from './InvoiceFilters'
 import InvoiceTable from './InvoiceTable'
 
@@ -11,11 +12,14 @@ const DEFAULT_FILTERS: InvoiceFilters = {
   month: '',
   date_from: '',
   date_to: '',
+  client_ico: '',
 }
 
 export default function Dashboard() {
   const { logout, token } = useAuth()
+  const navigate = useNavigate()
   const [invoices, setInvoices] = useState<Invoice[]>([])
+  const [clients, setClients] = useState<Client[]>([])
   const [updateError, setUpdateError] = useState('')
   const [pdfInvoice, setPdfInvoice] = useState<Invoice | null>(null)
   const [filters, setFilters] = useState<InvoiceFilters>(DEFAULT_FILTERS)
@@ -25,6 +29,10 @@ export default function Dashboard() {
   const [error, setError] = useState('')
   const [liveMsg, setLiveMsg] = useState('')
   const wsRef = useRef<WebSocket | null>(null)
+
+  useEffect(() => {
+    fetchClients().then(setClients).catch(() => {})
+  }, [])
 
   const loadInvoices = useCallback(async () => {
     setLoading(true)
@@ -192,7 +200,7 @@ export default function Dashboard() {
       {/* Navbar */}
       <header className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between shrink-0">
         <div>
-          <h1 className="text-lg font-bold text-gray-900">Vytěžování faktur</h1>
+          <h1 className="text-lg font-bold text-gray-900">Katerina Mlcakova</h1>
           <p className="text-xs text-gray-500">fakturace@katerinamlcakova.cz</p>
         </div>
         <div className="flex items-center gap-3">
@@ -211,10 +219,10 @@ export default function Dashboard() {
             {syncing ? 'Synchronizuji…' : 'Sync vše'}
           </button>
           <button
-            onClick={() => handlePohodaExport([])}
+            onClick={() => navigate('/clients')}
             className="px-3 py-1.5 text-xs border border-green-600 text-green-700 rounded-lg hover:bg-green-50 transition-colors"
           >
-            Export POHODA (vše)
+            Adresář klientů
           </button>
           <button
             onClick={logout}
@@ -262,6 +270,7 @@ export default function Dashboard() {
           filters={filters}
           onChange={setFilters}
           onReset={() => setFilters(DEFAULT_FILTERS)}
+          clients={clients}
         />
 
         {/* Table */}

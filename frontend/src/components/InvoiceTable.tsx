@@ -467,6 +467,15 @@ export default function InvoiceTable({ invoices, onPohodaExport, onUpdate, onPdf
       }),
 
       col.display({
+        id: 'invoice_number',
+        header: 'Číslo dokladu',
+        cell: ({ row }) => (
+          <EditableCell value={row.original.invoice_number} invoiceId={row.original.id}
+            field="invoice_number" type="text" onUpdate={onUpdate} />
+        ),
+      }),
+
+      col.display({
         id: 'dodavatel',
         header: 'Dodavatel',
         cell: ({ row }) => {
@@ -498,7 +507,7 @@ export default function InvoiceTable({ invoices, onPohodaExport, onUpdate, onPdf
           invoiceId={row.original.id} field="issue_date" type="date" onUpdate={onUpdate} />,
       }),
       col.display({
-        id: 'fulfillment_date', header: 'Datum plnění',
+        id: 'fulfillment_date', header: 'Datum uskut. zdaň. plnění',
         cell: ({ row }) => <EditableCell value={row.original.fulfillment_date} display={fmt(row.original.fulfillment_date)}
           invoiceId={row.original.id} field="fulfillment_date" type="date" onUpdate={onUpdate} />,
       }),
