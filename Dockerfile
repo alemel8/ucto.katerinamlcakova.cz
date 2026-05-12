@@ -6,7 +6,12 @@ RUN npm install
 COPY frontend/ ./
 RUN npm run build
 
-FROM python:3.11-slim AS runtime
+FROM python:3.12-slim AS base
+WORKDIR /app
+
+# PRIDAT pro Coolify healthcheck:
+RUN apt-get update && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -36,6 +41,6 @@ RUN rm -f /etc/nginx/sites-enabled/default \
     && chmod +x /usr/local/bin/entrypoint.sh \
     && mkdir -p /app/data/pdfs
 
-EXPOSE 80
+EXPOSE 8000
 
-CMD ["/usr/local/bin/entrypoint.sh"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
