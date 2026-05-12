@@ -11,15 +11,6 @@ from .routers import auth, invoices, ares
 from .routers import clients as clients_router
 from .email_fetcher import EmailFetcher, ImapIdleWatcher
 
-from fastapi import FastAPI
-
-app = FastAPI(...)  # uz existuje
-
-# PRIDAT - jednoduchy health endpoint:
-@app.get("/api/health")
-async def health_check():
-    return {"status": "ok"}
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
