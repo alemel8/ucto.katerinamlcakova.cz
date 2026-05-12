@@ -171,6 +171,6 @@ async def websocket_endpoint(websocket: WebSocket):
         ws_manager.disconnect(websocket)
 
 
-@app.get("/health")
-def health():
+@app.get("/api/health")
+async def health_check():
     return {"status": "ok"}
