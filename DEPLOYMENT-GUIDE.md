@@ -68,6 +68,7 @@ V https://coolify.seil.space:
 - **Domains:** `https://toneracek.cz` (jeden řádek per URL, `https://` důležité)
 - **Direction:** Allow www & non-www (Coolify pak chytá obě varianty)
 - **Ports Exposes:** interní port aplikace (Node.js typicky `3000`, Python `8000`)
+    - Pro tento projekt `ucto.katerinamlcakova.cz` nastav **`80`** (frontend běží přes nginx v kontejneru)
 - **Base Directory:** `/` (default)
 - **Dockerfile Location:** `/Dockerfile` (default)
 - Klik **Save**
