@@ -32,7 +32,9 @@ COPY --from=frontend-builder /app/frontend/dist /usr/share/nginx/html
 COPY deploy/nginx.coolify.conf /etc/nginx/conf.d/default.conf
 COPY deploy/entrypoint.sh /usr/local/bin/entrypoint.sh
 
-RUN chmod +x /usr/local/bin/entrypoint.sh && mkdir -p /app/data/pdfs
+RUN rm -f /etc/nginx/sites-enabled/default \
+    && chmod +x /usr/local/bin/entrypoint.sh \
+    && mkdir -p /app/data/pdfs
 
 EXPOSE 80
 
